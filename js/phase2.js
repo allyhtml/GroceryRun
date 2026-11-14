@@ -208,7 +208,7 @@
     A.play('confirm');
     render(true);
 
-    if (global.GRPhase1) global.GRPhase1.onUpgrade();
+    if (global.GRPhase1) global.GRPhase1.onUpgrade(u.level);
   }
 
   /* ---------------- lifecycle ---------------- */

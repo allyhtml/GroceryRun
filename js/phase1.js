@@ -62,7 +62,46 @@
     shadowSoft: 'rgba(43, 58, 66, 0.16)',
     basketA: '#b8875a',
     basketB: '#d3a373',
-    basketGoods: '#15803d'
+    basketGoods: '#15803d',
+
+    /* --- upgrade fixtures --- */
+    breadCrust: '#c98a4b',
+    breadCrustDark: '#a86f38',
+    breadCrumb: '#f0d9b5',
+    breadBag: '#e8eef2',
+    snackBagA: '#dc2626',
+    snackBagB: '#ca8a04',
+    snackBagC: '#2563eb',
+    snackBagD: '#16a34a',
+    shelfMetal: '#9aa7b0',
+    coffeeBody: '#e8eef2',
+    coffeeDark: '#4a5560',
+    coffeeRed: '#c2410c',
+    coffeeSteam: '#b6c2cb',
+    coffeeCup: '#f5fafc',
+    freezerBody: '#dbe7ee',
+    freezerGlass: '#5aa8cc',
+    freezerHandle: '#94a3b8',
+    pizzaCrust: '#d9a05b',
+    pizzaCheese: '#f2c14e',
+    pizzaPepperoni: '#c2410c',
+    phoneBody: '#33414f',
+    phoneScreen: '#38bdf8',
+    phoneGlow: '#7dd3fc',
+    hourglassFrame: '#b8875a',
+    hourglassSand: '#f2c14e',
+    hourglassGlass: '#e8f4f8',
+    bedFrame: '#8f6642',
+    bedSheet: '#f5fafc',
+    bedPillow: '#e2eef5',
+    bedBlanket: '#2563eb',
+    bedBlanketAlt: '#3b82f6',
+    laneFlagCheck: '#ffffff',
+    laneFlagDark: '#33414f',
+    laneGlow: '#f2c14e',
+    trophyGold: '#eab308',
+    trophyGoldDark: '#ca8a04',
+    wood: '#8f6642'
   };
 
   /* ---------------- canvas plumbing ---------------- */
@@ -204,6 +243,263 @@
     text('AISLE 1', lx + 1, horizon + 2, 2, PAL.neonPink, 'left');
   }
 
+  /* ---------------- upgrade fixtures ----------------
+     Each owned upgrade places a physical object in the shop.
+     Origin (x, y) is the bottom-left of the fixture's footprint. */
+
+  /* 1 — Generic White Bread: a bread crate on the left rise */
+  function drawBreadStand(x, y) {
+    px(x, y - 1, 11, 1, PAL.shadowSoft);
+    px(x, y, 11, 4, PAL.wood);
+    px(x, y, 11, 1, '#a87c50');
+    px(x, y + 3, 11, 1, PAL.counterEdge);
+    px(x + 1, y, 9, 1, '#5f4529');
+    /* loaves */
+    px(x + 1, y - 3, 4, 3, PAL.breadCrust);
+    px(x + 1, y - 3, 4, 1, PAL.breadCrumb);
+    px(x + 1, y - 1, 4, 1, PAL.breadCrustDark);
+    px(x + 6, y - 3, 4, 3, PAL.breadCrust);
+    px(x + 6, y - 3, 4, 1, PAL.breadCrumb);
+    px(x + 6, y - 1, 4, 1, PAL.breadCrustDark);
+    /* plastic wrapper tag */
+    px(x + 4, y - 2, 2, 1, PAL.breadBag);
+    px(x + 9, y - 2, 1, 1, PAL.breadBag);
+  }
+
+  /* 2 — Emergency Snack Aisle: a tall clip-strip of chip bags */
+  function drawSnackRack(x, y) {
+    px(x, y - 1, 9, 1, PAL.shadowSoft);
+    px(x + 4, y - 14, 1, 14, PAL.shelfMetal);   /* pole */
+    px(x + 2, y - 2, 5, 2, PAL.shelfMetal);     /* base */
+    var bags = [PAL.snackBagA, PAL.snackBagB, PAL.snackBagC, PAL.snackBagD];
+    for (var i = 0; i < 4; i++) {
+      var by = y - 13 + i * 3;
+      px(x + 2, by, 5, 3, bags[i]);
+      px(x + 2, by, 5, 1, 'rgba(255,255,255,0.35)');
+      px(x + 2, by + 2, 5, 1, 'rgba(43,58,66,0.18)');
+    }
+  }
+
+  /* 3 — ZUS Coffee Station: counter machine with cup + steam */
+  function drawCoffeeStation(x, y) {
+    px(x, y - 1, 13, 1, PAL.shadowSoft);
+    px(x, y, 13, 5, PAL.wood);
+    px(x, y, 13, 1, '#a87c50');
+    px(x, y + 4, 13, 1, PAL.counterEdge);
+    /* machine body */
+    px(x + 2, y - 7, 7, 7, PAL.coffeeBody);
+    px(x + 2, y - 7, 7, 2, PAL.coffeeRed);
+    px(x + 3, y - 4, 5, 2, PAL.coffeeDark);
+    px(x + 3, y - 3, 5, 1, '#7c8894');
+    px(x + 2, y - 7, 1, 7, '#c8d3da');
+    px(x + 8, y - 7, 1, 7, '#c8d3da');
+    /* spout */
+    px(x + 5, y - 2, 1, 2, PAL.coffeeDark);
+    /* cup */
+    px(x + 10, y - 3, 3, 3, PAL.coffeeCup);
+    px(x + 10, y - 3, 1, 3, '#dfeaf0');
+    px(x + 11, y - 3, 1, 2, '#8b5a2b');
+    /* steam */
+    px(x + 3, y - 9, 1, 1, PAL.coffeeSteam);
+    px(x + 5, y - 10, 1, 1, PAL.coffeeSteam);
+    px(x + 7, y - 9, 1, 1, PAL.coffeeSteam);
+  }
+
+  /* 4 — Emergency Pizza Freezer: chest freezer with glass lid */
+  function drawPizzaFreezer(x, y) {
+    px(x, y - 1, 15, 1, PAL.shadowSoft);
+    px(x, y, 15, 6, PAL.freezerBody);
+    px(x, y, 15, 2, PAL.freezerGlass);
+    px(x, y, 15, 1, '#8fd0e8');
+    px(x, y + 5, 15, 1, '#9fb3c0');
+    px(x + 1, y + 2, 13, 1, '#aec3cf');
+    /* visible pizzas under the glass */
+    px(x + 2, y, 4, 2, PAL.pizzaCrust);
+    px(x + 2, y, 3, 1, PAL.pizzaCheese);
+    px(x + 3, y, 1, 1, PAL.pizzaPepperoni);
+    px(x + 8, y, 4, 2, PAL.pizzaCrust);
+    px(x + 8, y, 3, 1, PAL.pizzaCheese);
+    px(x + 9, y + 1, 1, 1, PAL.pizzaPepperoni);
+    /* handle */
+    px(x + 6, y + 3, 3, 1, PAL.freezerHandle);
+    px(x + 13, y + 3, 1, 1, PAL.freezerHandle);
+  }
+
+  /* 5 — "No, You Hang Up First" Protocol: wall phone with glow */
+  function drawPhoneBooth(x, y) {
+    px(x, y - 1, 6, 1, PAL.shadowSoft);
+    px(x, y, 3, 6, PAL.phoneBody);          /* pedestal */
+    px(x, y, 3, 1, '#46535f');
+    px(x, y + 5, 3, 1, '#222c36');
+    /* handset */
+    px(x + 3, y - 6, 7, 4, PAL.phoneBody);
+    px(x + 3, y - 6, 7, 1, '#46535f');
+    px(x + 4, y - 5, 5, 2, PAL.phoneScreen);
+    px(x + 4, y - 5, 5, 1, PAL.phoneGlow);
+    px(x + 2, y - 5, 1, 2, PAL.phoneBody);  /* earpiece */
+    px(x, y - 4, 1, 1, PAL.phoneGlow);
+    px(x + 10, y - 4, 1, 1, PAL.phoneGlow);
+    /* signal waves */
+    px(x + 11, y - 7, 1, 1, PAL.phoneGlow);
+    px(x + 12, y - 8, 1, 1, PAL.phoneGlow);
+  }
+
+  /* 6 — Infinite Patience Reserves: giant hourglass on a plinth */
+  function drawPatienceHourglass(x, y) {
+    px(x, y - 1, 9, 1, PAL.shadowSoft);
+    px(x, y, 9, 4, PAL.wood);
+    px(x, y, 9, 1, '#a87c50');
+    px(x, y + 3, 9, 1, PAL.counterEdge);
+    /* frame */
+    px(x + 1, y - 12, 7, 1, PAL.hourglassFrame);
+    px(x + 1, y - 4, 7, 1, PAL.hourglassFrame);
+    px(x + 1, y - 12, 1, 9, PAL.hourglassFrame);
+    px(x + 7, y - 12, 1, 9, PAL.hourglassFrame);
+    /* glass bulb */
+    px(x + 2, y - 11, 5, 3, PAL.hourglassGlass);
+    px(x + 2, y - 8, 5, 3, PAL.hourglassGlass);
+    px(x + 2, y - 11, 1, 7, '#cfe6ee');
+    px(x + 6, y - 11, 1, 7, '#cfe6ee');
+    /* sand */
+    px(x + 3, y - 11, 3, 1, PAL.hourglassSand);
+    px(x + 4, y - 10, 1, 1, PAL.hourglassSand);
+    px(x + 3, y - 6, 3, 2, PAL.hourglassSand);
+    px(x + 3, y - 6, 3, 1, '#d9a72e');
+    /* glint */
+    px(x + 3, y - 10, 1, 1, '#ffffff');
+  }
+
+  /* 7 — The Blanket Hogging Barrier: a made bed with a divider */
+  function drawBlanketBarrier(x, y) {
+    px(x, y - 1, 20, 1, PAL.shadowSoft);
+    /* frame */
+    px(x, y, 20, 2, PAL.bedFrame);
+    px(x, y + 2, 2, 4, PAL.bedFrame);
+    px(x + 18, y + 2, 2, 4, PAL.bedFrame);
+    px(x + 2, y + 4, 16, 2, PAL.bedFrame);
+    /* mattress + sheet */
+    px(x + 2, y + 2, 16, 3, PAL.bedSheet);
+    px(x + 2, y + 2, 16, 1, '#ffffff');
+    /* blanket */
+    px(x + 8, y + 2, 10, 3, PAL.bedBlanket);
+    px(x + 8, y + 2, 10, 1, PAL.bedBlanketAlt);
+    px(x + 8, y + 2, 1, 3, '#1d4ed8');
+    /* pillow */
+    px(x + 3, y + 2, 4, 2, PAL.bedPillow);
+    px(x + 3, y + 2, 4, 1, '#ffffff');
+    /* the actual barrier down the middle */
+    px(x + 9, y - 4, 1, 7, PAL.bedFrame);
+    px(x + 9, y - 4, 1, 1, '#a87c50');
+    px(x + 8, y - 3, 3, 1, '#a87c50');
+  }
+
+  /* 8 — The Boyfriend Express Lane: checkered lane + trophy */
+  function drawExpressLane(x, y) {
+    px(x, y - 1, 26, 1, PAL.shadowSoft);
+    /* checkered floor strip */
+    for (var i = 0; i < 13; i++) {
+      var c = (i % 2 === 0) ? PAL.laneFlagCheck : PAL.laneFlagDark;
+      px(x + i * 2, y, 2, 3, c);
+    }
+    px(x, y, 26, 1, 'rgba(255,255,255,0.5)');
+    /* lane posts */
+    px(x + 1, y - 5, 1, 5, PAL.shelfMetal);
+    px(x + 24, y - 5, 1, 5, PAL.shelfMetal);
+    px(x, y - 6, 3, 1, PAL.laneGlow);
+    px(x + 23, y - 6, 3, 1, PAL.laneGlow);
+    /* trophy on a plinth */
+    px(x + 11, y - 3, 4, 3, PAL.wood);
+    px(x + 11, y - 3, 4, 1, '#a87c50');
+    px(x + 12, y - 8, 2, 2, PAL.trophyGold);      /* cup body */
+    px(x + 12, y - 8, 2, 1, '#f5d76e');
+    px(x + 11, y - 8, 1, 1, PAL.trophyGoldDark);  /* handles */
+    px(x + 14, y - 8, 1, 1, PAL.trophyGoldDark);
+    px(x + 12, y - 6, 2, 1, PAL.trophyGoldDark);  /* stem */
+    px(x + 11, y - 5, 4, 1, PAL.trophyGold);      /* base */
+  }
+
+  /* Registry: level -> { draw, kind } where kind drives placement */
+  var FIXTURES = {
+    1: { draw: drawBreadStand,      label: 'BREAD CRATE' },
+    2: { draw: drawSnackRack,       label: 'SNACK RACK' },
+    3: { draw: drawCoffeeStation,   label: 'ZUS STATION' },
+    4: { draw: drawPizzaFreezer,    label: 'PIZZA FREEZER' },
+    5: { draw: drawPhoneBooth,      label: 'HOTLINE' },
+    6: { draw: drawPatienceHourglass, label: 'PATIENCE RESERVE' },
+    7: { draw: drawBlanketBarrier,  label: 'BLANKET BARRIER' },
+    8: { draw: drawExpressLane,     label: 'EXPRESS LANE' }
+  };
+
+  /* Slots are laid out in the aisle. Each entry holds a normalised
+     position so the scene stays proportional across screen sizes. */
+  var SLOTS = {
+    1: { fx: 0.06, fy: 0.50, side: 'left' },
+    2: { fx: 0.80, fy: 0.46, side: 'right' },
+    3: { fx: 0.30, fy: 0.70, side: 'left' },
+    4: { fx: 0.68, fy: 0.68, side: 'right' },
+    5: { fx: 0.13, fy: 0.80, side: 'left' },
+    6: { fx: 0.86, fy: 0.78, side: 'right' },
+    7: { fx: 0.50, fy: 0.36, side: 'center' },
+    8: { fx: 0.50, fy: 0.94, side: 'center' }
+  };
+
+  function slotPos(level) {
+    var s = SLOTS[level];
+    var gx = Math.round(s.fx * (vw - 20)) + 2;
+    var gy = Math.round(s.fy * (vh - 30)) + 18;
+    return { x: gx, y: gy };
+  }
+
+  /* Pop-in animation: newly bought fixtures scale/spring into place */
+  var fixturePop = {};
+
+  function fixtureScale(level, now) {
+    var t = fixturePop[level];
+    if (t == null) return 1;
+    var age = (now - t) / 420;
+    if (age >= 1) { delete fixturePop[level]; return 1; }
+    if (age < 0) return 0;
+    /* ease-out back */
+    var p = age;
+    var c1 = 1.70158, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+  }
+
+  function drawFixtures(now) {
+    drawFixturesDepth(now, true);
+    drawFixturesDepth(now, false);
+  }
+
+  /* Sparkle burst the moment an upgrade lands */
+  function fixtureBurst(level) {
+    var pos = slotPos(level);
+    for (var i = 0; i < 8; i++) {
+      var a = (Math.PI * 2 * i) / 8;
+      (function (ang) {
+        global.setTimeout(function () {
+          sparkles.push({
+            x: pos.x, y: pos.y - 4,
+            vx: Math.cos(ang) * 0.5, vy: Math.sin(ang) * 0.5 - 0.3,
+            life: 1
+          });
+        }, i * 18);
+      })(a);
+    }
+  }
+
+  var sparkles = [];
+  var lastDt = 16;
+
+  function drawSparkles(dt) {
+    for (var i = sparkles.length - 1; i >= 0; i--) {
+      var s = sparkles[i];
+      s.x += s.vx; s.y += s.vy; s.vy += 0.06; s.life -= dt / 600;
+      if (s.life <= 0) { sparkles.splice(i, 1); continue; }
+      ctx.fillStyle = s.life > 0.5 ? PAL.trophyGold : PAL.laneGlow;
+      ctx.fillRect(Math.round(s.x), Math.round(s.y), 1, 1);
+    }
+  }
+
   /* ---------------- customers ---------------- */
 
   var SKINS = [PAL.skin, PAL.skinAlt, PAL.skinAlt2];
@@ -308,14 +604,47 @@
     drawShelf(vw - Math.max(8, Math.round(vw * 0.22)) - 2, horizon + 2, Math.max(8, Math.round(vw * 0.22)), 14);
     drawAisleLabels(horizon);
 
+    /* fixtures sit in the aisle: draw the far ones before customers,
+       the near ones after, so depth reads correctly */
+    drawFixturesDepth(now, true);
+
     for (var i = 0; i < customers.length; i++) {
       if (customers[i].y < vh - 22) drawCustomer(customers[i], now);
     }
 
     drawCounter();
+    drawFixturesDepth(now, false);
 
     for (var j = 0; j < customers.length; j++) {
       if (customers[j].y >= vh - 22) drawCustomer(customers[j], now);
+    }
+
+    drawSparkles(lastDt);
+  }
+
+  /* draw only fixtures whose slot is on the requested depth layer */
+  function drawFixturesDepth(now, farLayer) {
+    var owned = S.get().upgradesOwned;
+    for (var i = 0; i < owned.length; i++) {
+      var level = owned[i];
+      var fx = FIXTURES[level];
+      var slot = SLOTS[level];
+      if (!fx || !slot) continue;
+
+      /* far = upper half of the aisle (behind customers) */
+      var isFar = slot.fy < 0.62;
+      if (isFar !== farLayer) continue;
+
+      var pos = slotPos(level);
+      var sc = fixtureScale(level, now);
+      if (sc <= 0.01) continue;
+
+      ctx.save();
+      ctx.translate(pos.x, pos.y);
+      ctx.scale(sc, sc);
+      ctx.translate(-pos.x, -pos.y);
+      fx.draw(pos.x, pos.y);
+      ctx.restore();
     }
   }
 
@@ -323,6 +652,7 @@
     if (!running) return;
     var dt = Math.min(64, now - (lastFrame || now));
     lastFrame = now;
+    lastDt = dt;
 
     updateCustomers(dt, now);
     tickEconomy(dt);
@@ -375,13 +705,21 @@
 
   /* ---------------- interaction ---------------- */
 
-  function floatPlus(amount, gx, gy, isCustomer) {
+  function floatPlus(amount, gx, gy, mode) {
     var layer = el.fxLayer;
     if (!layer) return;
 
     var span = document.createElement('span');
     span.className = 'float-plus';
-    span.textContent = '+' + S.formatMoney(amount);
+    var isCustomer = mode === true || mode === 'customer';
+    var isLabel = mode === 'label';
+
+    if (isLabel) {
+      span.textContent = String(amount);
+      span.classList.add('float-label');
+    } else {
+      span.textContent = '+' + S.formatMoney(amount);
+    }
 
     var left = offX + gx * scale;
     var top = offY + gy * scale;
@@ -395,7 +733,7 @@
     layer.appendChild(span);
     setTimeout(function () {
       if (span.parentNode) span.parentNode.removeChild(span);
-    }, 900);
+    }, isLabel ? 1500 : 900);
   }
 
   function onTap(e) {
@@ -540,11 +878,19 @@
     init: init,
     enter: enter,
     leave: leave,
-    onUpgrade: function () {
+    onUpgrade: function (level) {
       hudCache.cash = null;
       hudCache.income = null;
       hudCache.level = null;
       updateHud();
+
+      /* spring the new fixture into the shop + sparkle burst */
+      if (level != null && FIXTURES[level]) {
+        fixturePop[level] = performance.now();
+        fixtureBurst(level);
+        var pos = slotPos(level);
+        floatPlus(FIXTURES[level].label, pos.x, pos.y - 10, 'label');
+      }
     }
   };
 })(window);
