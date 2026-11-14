@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e14">
+<title>GROCERYRUN: MANAGEMENT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ PHASE 0.1 : REGISTRATION ============ -->
+  <section class="screen active" id="screen-register">
+    <div class="screen-inner">
+      <div class="brand-mark">🛒</div>
+      <h1 class="title-pixel">GROCERYRUN</h1>
+      <p class="title-sub">MANAGEMENT REGISTRATION</p>
+
+      <div class="form-stack">
+        <label class="field">
+          <span class="field-label">Store Name</span>
+          <input id="input-store" type="text" maxlength="20" autocomplete="off"
+                 placeholder='e.g., "Kedai Runcit"' enterkeyhint="next">
+          <span class="field-hint" data-hint="store"></span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Store Manager Name</span>
+          <input id="input-manager" type="text" maxlength="20" autocomplete="off"
+                 placeholder="Your name" enterkeyhint="done">
+          <span class="field-hint" data-hint="manager"></span>
+        </label>
+      </div>
+
+      <button class="btn btn-primary" id="btn-to-profile">
+        NEXT: MANAGER PROFILE ➡
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 0.2 : CUSTOMIZATION ============ -->
+  <section class="screen" id="screen-customize">
+    <div class="screen-inner">
+      <h2 class="title-pixel sm">CUSTOMIZE YOUR<br>STORE MANAGER</h2>
+      <p class="subtitle-quote">"Dress code is strictly enforced by corporate (your girlfriend)."</p>
+
+      <div class="preview-wrap">
+        <canvas id="char-preview" width="96" height="96" aria-label="Manager preview"></canvas>
+        <div class="preview-glow"></div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-head">
+          <span class="group-title">Outfit</span>
+          <span class="group-note">+ Black Cargo Pants</span>
+        </div>
+        <div class="option-row" id="row-outfit"></div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-head">
+          <span class="group-title">Hair / Hat</span>
+        </div>
+        <div class="option-row" id="row-hair"></div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-head">
+          <span class="group-title">Accessories</span>
+        </div>
+        <div class="option-row" id="row-specs"></div>
+      </div>
+
+      <button class="btn btn-primary" id="btn-open-business">
+        OPEN FOR BUSINESS 🛒
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 1 : HUD + CORE LOOP ============ -->
+  <section class="screen" id="screen-store">
+    <header class="hud">
+      <div class="hud-top">
+        <div class="hud-identity">
+          <div class="hud-store-name" id="hud-store-name">Kedai Runcit</div>
+          <div class="hud-manager" id="hud-manager">Manager</div>
+        </div>
+        <button class="btn-audio" id="btn-audio" aria-label="Toggle sound">🔊</button>
+      </div>
+
+      <div class="hud-stats">
+        <div class="stat">
+          <span class="stat-label">Cash</span>
+          <span class="stat-value cash" id="hud-cash">$0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Satisfaction</span>
+          <span class="stat-value" id="hud-satisfaction">100%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Income</span>
+          <span class="stat-value small" id="hud-income">$0/s</span>
+        </div>
+      </div>
+
+      <div class="level-bar-wrap">
+        <div class="level-bar-head">
+          <span id="hud-level-label">Store Level: Local Kedai Runcit</span>
+          <span id="hud-level-pct">0%</span>
+        </div>
+        <div class="level-bar"><div class="level-bar-fill" id="level-fill"></div></div>
+      </div>
+    </header>
+
+    <main class="store-stage" id="store-stage">
+      <canvas id="store-canvas"></canvas>
+      <div class="fx-layer" id="fx-layer"></div>
+      <div class="tap-hint" id="tap-hint">tap the register to earn</div>
+    </main>
+  </section>
+
+</div>
+
+<script src="js/state.js"></script>
+<script src="js/character.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/phase0.js"></script>
+<script src="js/phase1.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
