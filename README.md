@@ -9,7 +9,7 @@ Static site, no build step, no backend. Open `index.html` and it runs.
 |---|---|---|
 | 0 | Setup & Character Customization | **Done** |
 | 1 | The Incognito Facade (store sim) | **Done** |
-| 2 | The 8-Level Relationship Upgrade Shop | Not started |
+| 2 | The 8-Level Relationship Upgrade Shop | **Done** |
 | 3 | Fourth-Wall Breaking Customer Reviews | Not started |
 | 4 | The Climax & Arcade Transition | Not started |
 | 5 | The Grand Reveal & Birthday Note | Not started |
@@ -33,6 +33,7 @@ js/character.js       procedural pixel-art character renderer (no image assets)
 js/audio.js           WebAudio bus + mute toggle
 js/phase0.js          registration + manager customization
 js/phase1.js          HUD, tap-to-earn loop, customers, canvas store scene
+js/phase2.js          the 8-level upgrade shop (bottom sheet over the store)
 js/main.js            screen router / boot
 ```
 
@@ -46,6 +47,10 @@ js/main.js            screen router / boot
 - **Economy pacing** is tuned so the full 8-level ladder completes in roughly 2.5 minutes of
   active play — fast enough to hold attention before the Phase 4 arcade reveal.
 - **Mobile first.** Portrait layout, 44px+ tap targets, safe-area insets for notched phones.
+- **Accessible palette.** Every text/background pair meets WCAG AA (4.5:1); the theme is a bright
+  daylight kedai, verified by an automated contrast suite rather than by eye.
+- **Linear upgrade ladder.** Only the next unbought upgrade is purchasable, so the pacing curve
+  cannot be broken by skipping ahead.
 
 ## Credits
 

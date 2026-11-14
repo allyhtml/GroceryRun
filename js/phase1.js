@@ -26,32 +26,43 @@
   var hudCache = { cash: null, sat: null, income: null, level: null };
 
   var PAL = {
-    floorA: '#232a34',
-    floorB: '#1e242d',
-    floorLine: '#151a21',
-    wallTop: '#182029',
-    wallBottom: '#11171f',
-    shelfBack: '#2a333f',
-    shelfFrame: '#3a4653',
-    shelfGlow: '#2de2c5',
-    itemA: '#d9694a',
-    itemB: '#4a8fd9',
-    itemC: '#d9b44a',
-    itemD: '#7ac46a',
-    itemE: '#b06ad9',
-    counter: '#3c2f26',
-    counterTop: '#54402f',
-    counterEdge: '#2a211a',
-    registerBody: '#2e3a46',
-    registerFace: '#3d4d5c',
-    registerScreen: '#2de2c5',
-    registerKey: '#ffc857',
-    neonPink: '#ff5d8f',
+    floorA: '#f4f7f2',
+    floorB: '#e9efe6',
+    floorLine: '#d3ddd0',
+    wallTop: '#faf3e0',
+    wallBottom: '#eef6ea',
+    wallBand: '#e6dcc4',
+    shelfBack: '#ffffff',
+    shelfFrame: '#c9a06a',
+    shelfGlow: '#0f766e',
+    itemA: '#dc2626',
+    itemB: '#2563eb',
+    itemC: '#ca8a04',
+    itemD: '#16a34a',
+    itemE: '#9333ea',
+    counter: '#b8875a',
+    counterTop: '#d3a373',
+    counterEdge: '#8f6642',
+    registerBody: '#d9e2e8',
+    registerFace: '#eef3f6',
+    registerShadow: '#b3c0c9',
+    registerScreen: '#34d399',
+    registerScreenLit: '#a7f3d0',
+    registerKey: '#f59e0b',
+    neonPink: '#c2410c',
+    signBg: '#ffffff',
+    signEdge: '#0f766e',
+    signText: '#0f766e',
+    aisleBg: '#ffffff',
     skin: '#e8b58f',
     skinAlt: '#c78a63',
     skinAlt2: '#b17a56',
-    text: '#e8f0f7',
-    textDim: '#7d90a4'
+    text: '#2b3a42',
+    textDim: '#5c6b73',
+    shadowSoft: 'rgba(43, 58, 66, 0.16)',
+    basketA: '#b8875a',
+    basketB: '#d3a373',
+    basketGoods: '#15803d'
   };
 
   /* ---------------- canvas plumbing ---------------- */
@@ -97,8 +108,8 @@
   function drawFloor() {
     var horizon = 26;
     px(0, 0, vw, horizon, PAL.wallTop);
-    px(0, 8, vw, 1, '#1d2731');
-    px(0, 17, vw, 1, '#1d2731');
+    px(0, 8, vw, 1, PAL.wallBand);
+    px(0, 17, vw, 1, PAL.wallBand);
 
     px(0, horizon, vw, vh - horizon, PAL.floorA);
     for (var y = horizon; y < vh; y += 2) {
@@ -155,18 +166,18 @@
   function drawRegister(x, y) {
     px(x, y, 9, 6, PAL.registerBody);
     px(x + 1, y + 1, 7, 2, PAL.registerScreen);
-    px(x + 1, y + 1, 7, 1, '#7ff0e0');
+    px(x + 1, y + 1, 7, 1, PAL.registerScreenLit);
     px(x + 2, y + 4, 1, 1, PAL.registerKey);
     px(x + 4, y + 4, 1, 1, PAL.registerKey);
     px(x + 6, y + 4, 1, 1, PAL.registerKey);
-    px(x, y + 6, 9, 1, '#1d252e');
-    px(x + 1, y - 1, 7, 1, '#1d252e');
+    px(x, y + 6, 9, 1, PAL.registerShadow);
+    px(x + 1, y - 1, 7, 1, PAL.registerShadow);
   }
 
   function drawBasket(x, y) {
-    px(x, y, 4, 3, '#7a5b3d');
-    px(x, y, 4, 1, '#96724d');
-    px(x + 1, y - 1, 1, 1, '#557a3d');
+    px(x, y, 4, 3, PAL.basketA);
+    px(x, y, 4, 1, PAL.basketB);
+    px(x + 1, y - 1, 1, 1, PAL.basketGoods);
     px(x + 3, y - 1, 1, 1, PAL.itemA);
   }
 
@@ -177,18 +188,18 @@
     var x = Math.round(vw / 2 - w / 2);
     var y = 3;
 
-    px(x, y, w, 8, '#0d1a1e');
-    px(x, y, w, 1, PAL.shelfGlow);
-    px(x, y + 7, w, 1, PAL.shelfGlow);
-    px(x, y, 1, 8, PAL.shelfGlow);
-    px(x + w - 1, y, 1, 8, PAL.shelfGlow);
+    px(x, y, w, 8, PAL.signBg);
+    px(x, y, w, 1, PAL.signEdge);
+    px(x, y + 7, w, 1, PAL.signEdge);
+    px(x, y, 1, 8, PAL.signEdge);
+    px(x + w - 1, y, 1, 8, PAL.signEdge);
 
-    text(label, x + 2, y + 2, 4, '#8ff5e6', 'left');
+    text(label, x + 2, y + 2, 4, PAL.signText, 'left');
   }
 
   function drawAisleLabels(horizon) {
     var lx = 2;
-    px(lx, horizon + 1, 9, 5, '#0f151b');
+    px(lx, horizon + 1, 9, 5, PAL.aisleBg);
     px(lx, horizon + 1, 9, 1, PAL.neonPink);
     text('AISLE 1', lx + 1, horizon + 2, 2, PAL.neonPink, 'left');
   }
@@ -196,7 +207,7 @@
   /* ---------------- customers ---------------- */
 
   var SKINS = [PAL.skin, PAL.skinAlt, PAL.skinAlt2];
-  var SHIRTS = ['#d9694a', '#4a8fd9', '#7ac46a', '#b06ad9', '#ffc857', '#5ac4c4'];
+  var SHIRTS = ['#dc2626', '#2563eb', '#16a34a', '#9333ea', '#b45309', '#0e7490'];
 
   function spawnCustomer() {
     var fromLeft = Math.random() > 0.38;
@@ -223,20 +234,20 @@
     var y = Math.round(c.y) + bob;
     if (x < -8 || x > vw + 8) return;
 
-    px(x - 1, y + 7, 3, 1, 'rgba(0,0,0,0.42)');
+    px(x - 1, y + 7, 3, 1, PAL.shadowSoft);
 
-    px(x, y + 5, 2, 3, '#2a303a');
-    px(x + 1, y + 5, 1, 3, '#1f252d');
+    px(x, y + 5, 2, 3, '#4a5560');
+    px(x + 1, y + 5, 1, 3, '#3a434c');
 
     px(x - 1, y + 2, 4, 3, c.shirt);
-    px(x - 1, y + 2, 1, 3, 'rgba(0,0,0,0.22)');
+    px(x - 1, y + 2, 1, 3, 'rgba(43, 58, 66, 0.20)');
 
     px(x, y, 2, 2, c.skin);
 
     if (c.dir < 0) {
-      px(x, y + 3, 1, 1, '#1b1f27');
+      px(x, y + 3, 1, 1, '#3a4a52');
     } else {
-      px(x + 1, y + 3, 1, 1, '#1b1f27');
+      px(x + 1, y + 3, 1, 1, '#3a4a52');
     }
 
     if (c.state === 'paying') {
@@ -528,6 +539,12 @@
   global.GRPhase1 = {
     init: init,
     enter: enter,
-    leave: leave
+    leave: leave,
+    onUpgrade: function () {
+      hudCache.cash = null;
+      hudCache.income = null;
+      hudCache.level = null;
+      updateHud();
+    }
   };
 })(window);

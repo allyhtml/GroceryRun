@@ -5,20 +5,21 @@
   var PALETTE = {
     skin: '#e8b58f',
     skinShade: '#c9936f',
-    outline: '#1b1f27',
-    pants: '#22262f',
-    pantsShade: '#161a21',
-    shoe: '#0e1116',
+    outline: '#3a4a52',
+    pants: '#2f3740',
+    pantsShade: '#222932',
+    pocket: '#414b56',
+    shoe: '#1c232a',
     hairDark: '#241b16',
     hairMid: '#33261e',
     hairLight: '#453329',
     helmet: '#d94f4f',
     helmetShade: '#a83a3a',
-    visor: '#1c2733',
-    cap: '#2b3a4a',
-    capShade: '#1d2833',
-    specFrame: '#0f1419',
-    specLens: '#5ad4e6'
+    visor: '#33414f',
+    cap: '#3a5068',
+    capShade: '#2b3d50',
+    specFrame: '#33414f',
+    specLens: '#0284c7'
   };
 
   var OUTFIT_COLORS = {
@@ -44,8 +45,8 @@
     px(ctx, 4, 12, 1, 3, PALETTE.pantsShade);
     px(ctx, 7, 12, 1, 3, PALETTE.pantsShade);
     /* cargo pockets */
-    px(ctx, 4, 13, 1, 1, '#31373f');
-    px(ctx, 8, 13, 1, 1, '#31373f');
+    px(ctx, 4, 13, 1, 1, PALETTE.pocket);
+    px(ctx, 8, 13, 1, 1, PALETTE.pocket);
     /* shoes */
     px(ctx, 3, 15, 3, 1, PALETTE.shoe);
     px(ctx, 7, 15, 3, 1, PALETTE.shoe);
