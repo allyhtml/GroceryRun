@@ -124,6 +124,7 @@
 
     ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * offX, dpr * offY);
     ctx.imageSmoothingEnabled = false;
+    LAYOUT = layoutFixtures();
     render();
   }
 
@@ -144,19 +145,22 @@
 
   /* ---------------- scene ---------------- */
 
-  function drawFloor() {
-    var horizon = 26;
-    px(0, 0, vw, horizon, PAL.wallTop);
-    px(0, 8, vw, 1, PAL.wallBand);
-    px(0, 17, vw, 1, PAL.wallBand);
+  /* Horizon: units of wall at the top of the scene. Kept deliberately small —
+     this is a shop floor, not a gallery wall. */
+  var HORIZON = 11;
 
-    px(0, horizon, vw, vh - horizon, PAL.floorA);
-    for (var y = horizon; y < vh; y += 2) {
+  function drawFloor() {
+    px(0, 0, vw, HORIZON, PAL.wallTop);
+    px(0, 3, vw, 1, PAL.wallBand);
+    px(0, 7, vw, 1, PAL.wallBand);
+
+    px(0, HORIZON, vw, vh - HORIZON, PAL.floorA);
+    for (var y = HORIZON; y < vh; y += 2) {
       px(0, y, vw, 1, PAL.floorB);
     }
     for (var x = -8; x < vw + 8; x += 6) {
-      for (var yy = horizon; yy < vh; yy += 4) {
-        var off = Math.floor((yy - horizon) / 4) * 2;
+      for (var yy = HORIZON; yy < vh; yy += 4) {
+        var off = Math.floor((yy - HORIZON) / 4) * 2;
         px(x + off, yy, 1, 1, PAL.floorLine);
       }
     }
@@ -184,22 +188,24 @@
     px(x + 1, y + 1, w - 2, 1, PAL.shelfGlow);
   }
 
+  /* The till sits in the reserved bottom band, spanning the width like a
+     store front counter. Fixtures never enter this band. */
   function drawCounter() {
-    var cw = Math.min(18, Math.max(12, Math.round(vw * 0.42)));
-    var cx = Math.round(vw / 2 - cw / 2);
-    var cy = vh - 17;
+    var cy = vh - COUNTER_H + 1;
+    var cw = vw;
 
-    px(cx, cy, cw, 9, PAL.counter);
-    px(cx, cy, cw, 2, PAL.counterTop);
-    px(cx, cy + 8, cw, 1, PAL.counterEdge);
-    px(cx, cy + 2, 1, 6, PAL.counterEdge);
-    px(cx + cw - 1, cy + 2, 1, 6, PAL.counterEdge);
+    px(0, cy, cw, COUNTER_H - 1, PAL.counter);
+    px(0, cy, cw, 2, PAL.counterTop);
+    px(0, cy + COUNTER_H - 2, cw, 1, PAL.counterEdge);
+    px(0, cy, cw, 1, '#c99a68');
 
-    drawRegister(cx + Math.round(cw / 2) - 4, cy - 7);
-    drawBasket(cx - 4, cy + 1);
-    drawBasket(cx + cw + 1, cy + 1);
+    /* register parks near the centre of the counter */
+    var rx = Math.round(vw / 2 - 4);
+    drawRegister(rx, cy - 6);
+    drawBasket(rx - 6, cy + 3);
+    drawBasket(rx + 10, cy + 3);
 
-    return { x: cx, y: cy, w: cw, h: 9 };
+    return { x: 0, y: cy, w: cw, h: COUNTER_H };
   }
 
   function drawRegister(x, y) {
@@ -225,22 +231,16 @@
     var w = label.length * 5 + 4;
     if (w > vw - 4) return;
     var x = Math.round(vw / 2 - w / 2);
-    var y = 3;
+    var y = 1;
+    var h = 7;
 
-    px(x, y, w, 8, PAL.signBg);
+    px(x, y, w, h, PAL.signBg);
     px(x, y, w, 1, PAL.signEdge);
-    px(x, y + 7, w, 1, PAL.signEdge);
-    px(x, y, 1, 8, PAL.signEdge);
-    px(x + w - 1, y, 1, 8, PAL.signEdge);
+    px(x, y + h - 1, w, 1, PAL.signEdge);
+    px(x, y, 1, h, PAL.signEdge);
+    px(x + w - 1, y, 1, h, PAL.signEdge);
 
-    text(label, x + 2, y + 2, 4, PAL.signText, 'left');
-  }
-
-  function drawAisleLabels(horizon) {
-    var lx = 2;
-    px(lx, horizon + 1, 9, 5, PAL.aisleBg);
-    px(lx, horizon + 1, 9, 1, PAL.neonPink);
-    text('AISLE 1', lx + 1, horizon + 2, 2, PAL.neonPink, 'left');
+    text(label, x + 2, y + 2, 3, PAL.signText, 'left');
   }
 
   /* ---------------- upgrade fixtures ----------------
@@ -266,17 +266,17 @@
     px(x + 9, y - 2, 1, 1, PAL.breadBag);
   }
 
-  /* 2 — Emergency Snack Aisle: a tall clip-strip of chip bags */
+  /* 2 — Emergency Snack Aisle: clip-strip of chip bags (compact, 9 tall) */
   function drawSnackRack(x, y) {
-    px(x, y - 1, 9, 1, PAL.shadowSoft);
-    px(x + 4, y - 14, 1, 14, PAL.shelfMetal);   /* pole */
-    px(x + 2, y - 2, 5, 2, PAL.shelfMetal);     /* base */
+    px(x, y - 1, 11, 1, PAL.shadowSoft);
+    px(x + 5, y - 9, 1, 9, PAL.shelfMetal);     /* pole */
+    px(x + 2, y - 2, 7, 2, PAL.shelfMetal);     /* base */
     var bags = [PAL.snackBagA, PAL.snackBagB, PAL.snackBagC, PAL.snackBagD];
-    for (var i = 0; i < 4; i++) {
-      var by = y - 13 + i * 3;
-      px(x + 2, by, 5, 3, bags[i]);
-      px(x + 2, by, 5, 1, 'rgba(255,255,255,0.35)');
-      px(x + 2, by + 2, 5, 1, 'rgba(43,58,66,0.18)');
+    for (var i = 0; i < 3; i++) {
+      var by = y - 9 + i * 3;
+      px(x + 2, by, 6, 3, bags[i]);
+      px(x + 2, by, 6, 1, 'rgba(255,255,255,0.35)');
+      px(x + 2, by + 2, 6, 1, 'rgba(43,58,66,0.18)');
     }
   }
 
@@ -347,26 +347,25 @@
   /* 6 — Infinite Patience Reserves: giant hourglass on a plinth */
   function drawPatienceHourglass(x, y) {
     px(x, y - 1, 9, 1, PAL.shadowSoft);
-    px(x, y, 9, 4, PAL.wood);
+    px(x, y, 9, 3, PAL.wood);
     px(x, y, 9, 1, '#a87c50');
-    px(x, y + 3, 9, 1, PAL.counterEdge);
-    /* frame */
-    px(x + 1, y - 12, 7, 1, PAL.hourglassFrame);
-    px(x + 1, y - 4, 7, 1, PAL.hourglassFrame);
-    px(x + 1, y - 12, 1, 9, PAL.hourglassFrame);
-    px(x + 7, y - 12, 1, 9, PAL.hourglassFrame);
+    px(x, y + 2, 9, 1, PAL.counterEdge);
+    /* frame (8 tall so it fits the compact aisle rows) */
+    px(x + 1, y - 8, 7, 1, PAL.hourglassFrame);
+    px(x + 1, y - 3, 7, 1, PAL.hourglassFrame);
+    px(x + 1, y - 8, 1, 6, PAL.hourglassFrame);
+    px(x + 7, y - 8, 1, 6, PAL.hourglassFrame);
     /* glass bulb */
-    px(x + 2, y - 11, 5, 3, PAL.hourglassGlass);
-    px(x + 2, y - 8, 5, 3, PAL.hourglassGlass);
-    px(x + 2, y - 11, 1, 7, '#cfe6ee');
-    px(x + 6, y - 11, 1, 7, '#cfe6ee');
+    px(x + 2, y - 7, 5, 2, PAL.hourglassGlass);
+    px(x + 2, y - 5, 5, 2, PAL.hourglassGlass);
+    px(x + 2, y - 7, 1, 4, '#cfe6ee');
+    px(x + 6, y - 7, 1, 4, '#cfe6ee');
     /* sand */
-    px(x + 3, y - 11, 3, 1, PAL.hourglassSand);
-    px(x + 4, y - 10, 1, 1, PAL.hourglassSand);
-    px(x + 3, y - 6, 3, 2, PAL.hourglassSand);
-    px(x + 3, y - 6, 3, 1, '#d9a72e');
+    px(x + 3, y - 7, 3, 1, PAL.hourglassSand);
+    px(x + 4, y - 6, 1, 1, PAL.hourglassSand);
+    px(x + 3, y - 4, 3, 1, PAL.hourglassSand);
     /* glint */
-    px(x + 3, y - 10, 1, 1, '#ffffff');
+    px(x + 3, y - 6, 1, 1, '#ffffff');
   }
 
   /* 7 — The Blanket Hogging Barrier: a made bed with a divider */
@@ -430,24 +429,107 @@
     8: { draw: drawExpressLane,     label: 'EXPRESS LANE' }
   };
 
-  /* Slots are laid out in the aisle. Each entry holds a normalised
-     position so the scene stays proportional across screen sizes. */
-  var SLOTS = {
-    1: { fx: 0.06, fy: 0.50, side: 'left' },
-    2: { fx: 0.80, fy: 0.46, side: 'right' },
-    3: { fx: 0.30, fy: 0.70, side: 'left' },
-    4: { fx: 0.68, fy: 0.68, side: 'right' },
-    5: { fx: 0.13, fy: 0.80, side: 'left' },
-    6: { fx: 0.86, fy: 0.78, side: 'right' },
-    7: { fx: 0.50, fy: 0.36, side: 'center' },
-    8: { fx: 0.50, fy: 0.94, side: 'center' }
+  /* The aisle fills everything above the reserved counter band. Fixtures are
+     grouped into depth bands; each band's height comes from its tallest piece,
+     and the whole set is scaled down proportionally when the floor is short so
+     nothing can ever collide. */
+  var COUNTER_H = 9;
+
+  /* natural art size per fixture */
+  var META = {
+    1: { col: 'left',   w: 11, h: 4  },
+    2: { col: 'center', w: 11, h: 9  },
+    3: { col: 'right',  w: 13, h: 10 },
+    5: { col: 'left',   w: 7,  h: 7  },
+    4: { col: 'center', w: 15, h: 7  },
+    6: { col: 'right',  w: 9,  h: 8  },
+    7: { col: 'left',   w: 20, h: 7  },
+    8: { col: 'right',  w: 26, h: 9  }
   };
 
+  var WIDE_BANDS = [[1, 2, 3], [5, 4, 6], [7], [8]];
+  var NARROW_BANDS = [[1, 3], [2], [5, 6], [4], [7], [8]];
+
+  function colFraction(col) {
+    if (col === 'left') return 0;
+    if (col === 'right') return 1;
+    return 0.5;
+  }
+
+  /* do these fixtures fit side by side without touching? */
+  function rowFits(items, width) {
+    var placed = [];
+    for (var i = 0; i < items.length; i++) {
+      var m = META[items[i]];
+      var minX = 1;
+      var maxX = Math.max(minX, width - m.w - 1);
+      placed.push({ x: Math.round(minX + colFraction(m.col) * (maxX - minX)), w: m.w });
+    }
+    for (var a = 0; a < placed.length; a++) {
+      for (var b = a + 1; b < placed.length; b++) {
+        if (!(placed[a].x + placed[a].w <= placed[b].x ||
+              placed[b].x + placed[b].w <= placed[a].x)) return false;
+      }
+    }
+    return true;
+  }
+
+  function bandsFor(width) {
+    if (rowFits([1, 2, 3], width) && rowFits([5, 4, 6], width)) return WIDE_BANDS;
+    return NARROW_BANDS;
+  }
+
+  function bandHeight(band) {
+    var tallest = 1;
+    for (var i = 0; i < band.length; i++) {
+      var h = META[band[i]] ? META[band[i]].h : 1;
+      if (h > tallest) tallest = h;
+    }
+    return tallest;
+  }
+
+  function layoutFixtures() {
+    var floorTop = HORIZON + 2;
+    var floorBottom = Math.max(floorTop + 8, vh - COUNTER_H - 1);
+    var floorH = floorBottom - floorTop;
+    var bands = bandsFor(vw);
+
+    var natural = 0, i, j;
+    for (i = 0; i < bands.length; i++) natural += bandHeight(bands[i]);
+
+    var totalGap = 1 * (bands.length - 1);
+    var k = Math.min(1, (floorH - totalGap) / Math.max(1, natural));
+
+    var out = {};
+    var cursor = floorTop;
+    for (i = 0; i < bands.length; i++) {
+      var band = bands[i];
+      var h = bandHeight(band) * k;
+      var baseline = Math.round(cursor + h);
+      for (j = 0; j < band.length; j++) {
+        var level = band[j];
+        var m = META[level];
+        var minX = 1;
+        var maxX = Math.max(minX, vw - m.w - 1);
+        out[level] = {
+          x: Math.round(minX + colFraction(m.col) * (maxX - minX)),
+          y: baseline,
+          w: m.w,
+          scale: k,
+          row: bands.length > 1 ? i / (bands.length - 1) : 0
+        };
+      }
+      cursor += h + 1;
+    }
+    return out;
+  }
+
+  /* live layout for the current viewport, recomputed on resize */
+  var LAYOUT = {};
+
   function slotPos(level) {
-    var s = SLOTS[level];
-    var gx = Math.round(s.fx * (vw - 20)) + 2;
-    var gy = Math.round(s.fy * (vh - 30)) + 18;
-    return { x: gx, y: gy };
+    var s = LAYOUT[level] || { x: 1, y: vh - COUNTER_H - 2, scale: 1, row: 0.5, w: 10 };
+    return s;
   }
 
   /* Pop-in animation: newly bought fixtures scale/spring into place */
@@ -510,7 +592,7 @@
     var c = {
       id: ++customerSeq,
       x: fromLeft ? -4 : vw + 4,
-      y: 30 + Math.random() * Math.max(1, (vh - 52)),
+      y: HORIZON + 7 + Math.random() * Math.max(1, (vh - COUNTER_H - HORIZON - 14)),
       dir: fromLeft ? 1 : -1,
       speed: 0.055 + Math.random() * 0.045,
       state: 'walking',
@@ -599,44 +681,43 @@
     drawFloor();
     drawNeonSign();
 
-    var horizon = 26;
-    drawShelf(2, horizon + 2, Math.max(8, Math.round(vw * 0.22)), 14);
-    drawShelf(vw - Math.max(8, Math.round(vw * 0.22)) - 2, horizon + 2, Math.max(8, Math.round(vw * 0.22)), 14);
-    drawAisleLabels(horizon);
+    var shelfW = Math.max(7, Math.round(vw * 0.19));
+    drawShelf(2, HORIZON - 7, shelfW, 6);
+    drawShelf(vw - shelfW - 2, HORIZON - 7, shelfW, 6);
 
     /* fixtures sit in the aisle: draw the far ones before customers,
        the near ones after, so depth reads correctly */
     drawFixturesDepth(now, true);
 
     for (var i = 0; i < customers.length; i++) {
-      if (customers[i].y < vh - 22) drawCustomer(customers[i], now);
+      if (customers[i].y < vh - COUNTER_H) drawCustomer(customers[i], now);
     }
 
     drawCounter();
     drawFixturesDepth(now, false);
 
     for (var j = 0; j < customers.length; j++) {
-      if (customers[j].y >= vh - 22) drawCustomer(customers[j], now);
+      if (customers[j].y >= vh - COUNTER_H) drawCustomer(customers[j], now);
     }
 
     drawSparkles(lastDt);
   }
 
-  /* draw only fixtures whose slot is on the requested depth layer */
+  /* draw only fixtures whose band is on the requested depth layer.
+     Upper bands render behind customers, lower bands in front. */
   function drawFixturesDepth(now, farLayer) {
     var owned = S.get().upgradesOwned;
+
     for (var i = 0; i < owned.length; i++) {
       var level = owned[i];
       var fx = FIXTURES[level];
-      var slot = SLOTS[level];
-      if (!fx || !slot) continue;
-
-      /* far = upper half of the aisle (behind customers) */
-      var isFar = slot.fy < 0.62;
-      if (isFar !== farLayer) continue;
+      if (!fx || !META[level]) continue;
 
       var pos = slotPos(level);
-      var sc = fixtureScale(level, now);
+      var isFar = pos.row <= 0.5;
+      if (isFar !== farLayer) continue;
+
+      var sc = fixtureScale(level, now) * (pos.scale || 1);
       if (sc <= 0.01) continue;
 
       ctx.save();
