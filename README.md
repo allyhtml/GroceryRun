@@ -10,9 +10,9 @@ Static site, no build step, no backend. Open `index.html` and it runs.
 | 0 | Setup & Character Customization | **Done** |
 | 1 | The Incognito Facade (store sim) | **Done** |
 | 2 | The 8-Level Relationship Upgrade Shop | **Done** |
-| 3 | Fourth-Wall Breaking Customer Reviews | Not started |
-| 4 | The Climax & Arcade Transition | Not started |
-| 5 | The Grand Reveal & Birthday Note | Not started |
+| 3 | Fourth-Wall Breaking Customer Reviews | **Done** |
+| 4 | The Climax & Arcade Transition | **Done** |
+| 5 | The Grand Reveal & Birthday Note | **Done** |
 
 ## Running locally
 
@@ -34,6 +34,9 @@ js/audio.js           WebAudio bus + mute toggle
 js/phase0.js          registration + manager customization
 js/phase1.js          HUD, tap-to-earn loop, customers, canvas store scene
 js/phase2.js          the 8-level upgrade shop (bottom sheet over the store)
+js/phase3.js          personalised receipt notifications
+js/phase4.js          error-404 glitch + the Kedai Blitz arcade
+js/phase5.js          confetti reveal and the typed birthday letter
 js/main.js            screen router / boot
 ```
 
@@ -49,6 +52,11 @@ js/main.js            screen router / boot
 - **Mobile first.** Portrait layout, 44px+ tap targets, safe-area insets for notched phones.
 - **Accessible palette.** Every text/background pair meets WCAG AA (4.5:1); the theme is a bright
   daylight kedai, verified by an automated contrast suite rather than by eye.
+- **The chain.** Level 8 triggers an error-404 glitch, then the *Kedai Blitz* arcade
+  (30 seconds, catch the essentials, dodge alarm clocks), then a confetti reveal and
+  the birthday letter typed out a character at a time.
+- **No CDN dependency for the game itself.** The arcade is hand-written canvas rather
+  than a game framework, so a flaky connection cannot break the finale.
 - **Linear upgrade ladder.** Only the next unbought upgrade is purchasable, so the pacing curve
   cannot be broken by skipping ahead.
 

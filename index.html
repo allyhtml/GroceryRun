@@ -128,6 +128,8 @@
       <span class="shop-fab-label">UPGRADES</span>
       <span class="shop-fab-badge" id="shop-badge" hidden>!</span>
     </button>
+
+    <div class="receipt-stack" id="receipt-stack" aria-live="polite"></div>
   </section>
 
   <!-- ============ PHASE 2 : UPGRADE SHOP ============ -->
@@ -152,6 +154,76 @@
     </div>
   </section>
 
+  <!-- ============ PHASE 4 : GLITCH-OUT ============ -->
+  <section class="screen screen-error" id="screen-glitch">
+    <div class="error-wrap">
+      <div class="error-code">ERROR 404</div>
+      <div class="error-title">GroceryRun closed.</div>
+      <div class="error-reason">
+        Reason: <span id="error-reason">Boyfriend's birthday execution in progress.</span>
+      </div>
+      <div class="error-scanline"></div>
+      <div class="error-loader">
+        <div class="error-loader-bar" id="error-loader-bar"></div>
+      </div>
+      <div class="error-log" id="error-log"></div>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 4 : ARCADE ============ -->
+  <section class="screen screen-arcade" id="screen-arcade">
+    <div class="arcade-head">
+      <div class="arcade-title">KEDAI BLITZ</div>
+      <div class="arcade-sub">CATCH THE ESSENTIALS</div>
+    </div>
+    <div class="arcade-hud">
+      <div class="arcade-stat">
+        <span class="arcade-stat-label">Time</span>
+        <span class="arcade-stat-value" id="arcade-time">30</span>
+      </div>
+      <div class="arcade-stat">
+        <span class="arcade-stat-label">Score</span>
+        <span class="arcade-stat-value" id="arcade-score">0</span>
+      </div>
+      <div class="arcade-stat">
+        <span class="arcade-stat-label">Misses</span>
+        <span class="arcade-stat-value" id="arcade-misses">0</span>
+      </div>
+    </div>
+    <div class="arcade-stage" id="arcade-stage">
+      <canvas id="arcade-canvas"></canvas>
+    </div>
+    <div class="arcade-controls">
+      <button class="arcade-btn" id="arcade-left" aria-label="Move left">◀</button>
+      <button class="arcade-btn" id="arcade-right" aria-label="Move right">▶</button>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 5 : THE REVEAL ============ -->
+  <section class="screen screen-finale" id="screen-finale">
+    <canvas id="confetti-canvas"></canvas>
+    <div class="finale-inner">
+      <div class="finale-badge">🎂</div>
+      <h1 class="finale-title" id="finale-title">CONGRATULATIONS,<br>MANAGER</h1>
+      <p class="finale-body" id="finale-body"></p>
+      <div class="finale-wish">
+        <div class="wish-label">Your prize</div>
+        <p class="wish-text">You are eligible for <strong>one wish</strong>.<br>Make it count, because I'm ready to grant whatever you want today.</p>
+      </div>
+      <button class="btn" id="btn-read-note">CLICK TO READ BIRTHDAY NOTE</button>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 5 : THE NOTE ============ -->
+  <section class="screen screen-note" id="screen-note">
+    <div class="letter">
+      <div class="letter-head">To my lovely and sweet boyfriend,</div>
+      <div class="letter-body" id="letter-body"></div>
+      <div class="letter-sign">❤</div>
+    </div>
+    <button class="btn letter-btn" id="btn-replay">REPLAY GROCERYRUN</button>
+  </section>
+
 </div>
 
 <script src="js/state.js"></script>
@@ -160,6 +232,9 @@
 <script src="js/phase0.js"></script>
 <script src="js/phase1.js"></script>
 <script src="js/phase2.js"></script>
+<script src="js/phase3.js"></script>
+<script src="js/phase4.js"></script>
+<script src="js/phase5.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

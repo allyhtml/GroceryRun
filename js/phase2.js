@@ -209,6 +209,18 @@
     render(true);
 
     if (global.GRPhase1) global.GRPhase1.onUpgrade(u.level);
+
+    /* level 8 is the finale: glitch out, then the arcade */
+    if (u.level === 8) {
+      if (global.GRPhase3) global.GRPhase3.stop();
+      global.setTimeout(function () {
+        if (global.GRPhase4) {
+          global.GRPhase4.runGlitch(function () {
+            global.GRPhase4.startGame();
+          });
+        }
+      }, 900);
+    }
   }
 
   /* ---------------- lifecycle ---------------- */

@@ -47,7 +47,10 @@
     satisfaction: 100,
     upgradesOwned: [],
     muted: false,
-    firstTapDone: false
+    firstTapDone: false,
+    arcadeDone: false,
+    arcadeScore: 0,
+    arcadeMisses: 0
   };
 
   var state = clone(defaults);

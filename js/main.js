@@ -7,7 +7,11 @@
     register: 'screen-register',
     customize: 'screen-customize',
     store: 'screen-store',
-    shop: 'screen-shop'
+    shop: 'screen-shop',
+    glitch: 'screen-glitch',
+    arcade: 'screen-arcade',
+    finale: 'screen-finale',
+    note: 'screen-note'
   };
 
   var current = null;
@@ -16,8 +20,8 @@
     var id = SCREENS[name];
     if (!id) return;
 
-    /* the shop sheet overlays the store, so the sim must keep running behind it */
-    var leaveStore = current === 'store' && name !== 'store' && name !== 'shop';
+    /* the shop overlays the store, so the sim keeps running behind it */
+    var leaveStore = current === 'store' && name !== 'store' && name !== 'shop' && name !== 'glitch';
     if (leaveStore && global.GRPhase1) global.GRPhase1.leave();
 
     Object.keys(SCREENS).forEach(function (key) {
@@ -42,6 +46,9 @@
     global.GRPhase0.init();
     global.GRPhase1.init();
     if (global.GRPhase2) global.GRPhase2.init();
+    if (global.GRPhase3) global.GRPhase3.init();
+    if (global.GRPhase4) global.GRPhase4.init();
+    if (global.GRPhase5) global.GRPhase5.init();
 
     if (hasSave && st.registered && st.storeName && st.managerName) {
       show('store');
